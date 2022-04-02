@@ -21,14 +21,23 @@ function partitionBooksByBorrowedStatus(books) {
   result = [availableArray, returnedArray];
   return result
 }
-
+//using spread operator in function per feedback
 function getBorrowersForBook(book, accounts) {
-  let history = book.borrows.map((borrow) => {
-    let info = findAuthorById(accounts, borrow.id)
-    info.returned = borrow.returned
-   return info
-  }).slice(0,10)
-  return history
+  const {borrows} = book;
+  const borrowers = borrows.map(({ id, returned }) => {
+    const account = accounts.find(account => account.id === id);
+    return {
+      ...account,
+      returned,
+    };
+  });
+  return borrowers
+    .sort((borrowerA, borrowerB) => {
+      const companyA =borrowerA.company;
+      const companyB = borrowerB.company;
+      return companyA.localeCompare(companyB);
+    })
+    .slice(0,10);
 }
 
 module.exports = {

@@ -1,6 +1,15 @@
+//implementing a reduce method per feedback
 function getTotalBooksCount(books) {
-  solution = books.length
-  return solution
+  solution = books.reduce((acc, book) =>
+    {acc++; return acc;}, 0)
+    return solution;
+  
+}
+
+//implementing a helper function per feedback
+function short(array) {
+  let arr = array.sort((a,b) => b.count - a.count).slice(0, 5)
+  return arr
 }
 
 function getTotalAccountsCount(accounts) {
@@ -35,14 +44,9 @@ function getMostCommonGenres(books) {
 }
 
 function getMostPopularBooks(books) {
-  solution = books.map((book) => {
-    bookObject = {}
-    bookObject.name = book.title
-    bookObject.count = book.borrows.length
-    return bookObject
-  })
-  solution.sort((first, second) => second.count - first.count)
-    return solution.slice(0,5)
+  const borrows = books.map(book => ({name:book.title, count:book.borrows.length}));
+  //using the helper function
+  return short(borrows);
 }
 
 function getMostPopularAuthors(books, authors) {
